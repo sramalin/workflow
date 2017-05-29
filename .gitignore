@@ -1,5 +1,5 @@
-	.idea/
-	my-rest-service.iml
-	target/
+.idea/*
+my-rest-service.iml
+target/*
 
 
