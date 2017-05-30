@@ -1,36 +1,40 @@
 package workflow.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
  * Created by sramalin on 29/05/17.
  */
+@Entity
 public class Ticket {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private  long id;
+
+
     private  String name;
+
     private   String description;
+
     private String assignedTo;
+
     private String priority;
 
     public Ticket() {
     }
 
-    public Ticket(long id, String name, String description, String assignedTo, String priority) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.assignedTo = assignedTo;
-        this.priority = priority;
-    }
 
-    public Ticket(long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
+    public Ticket replace(Ticket ticket){
 
-    public Ticket(String name, String description) {
-        this.name = name;
-        this.description = description;
+        name = getNotNullParam(ticket.getName(), name);
+        description = getNotNullParam(ticket.getDescription(), description);
+        assignedTo = getNotNullParam(ticket.getAssignedTo(), assignedTo);
+        priority = getNotNullParam(ticket.getPriority(), priority);
+        return this;
     }
 
     public long getId() {
@@ -51,5 +55,13 @@ public class Ticket {
 
     public String getPriority() {
         return priority;
+    }
+
+    private <T> T getNotNullParam(T first, T second) {
+        if(first != null) {
+            return first;
+        }
+        return second;
+
     }
 }
