@@ -27,8 +27,8 @@ public class TicketController {
 
     }
 
-    @RequestMapping(value = "/ticket/{name}", method = RequestMethod.GET)
-    public List<Ticket> getTicketsByName(@PathVariable(value = "name") String varName) {
+    @RequestMapping(value = "/ticket", method = RequestMethod.GET)
+    public List<Ticket> getTicketsByName(@RequestParam(value = "name") String varName) {
 
         return ticketService.getTicketsByName(varName);
 
