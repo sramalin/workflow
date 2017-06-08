@@ -20,7 +20,7 @@ public class Ticket {
 
     private   String description;
 
-    private String assignedTo;
+
 
     private String priority;
 
@@ -32,7 +32,6 @@ public class Ticket {
 
         name = getNotNullParam(ticket.getName(), name);
         description = getNotNullParam(ticket.getDescription(), description);
-        assignedTo = getNotNullParam(ticket.getAssignedTo(), assignedTo);
         priority = getNotNullParam(ticket.getPriority(), priority);
         return this;
     }
@@ -49,9 +48,7 @@ public class Ticket {
         return description;
     }
 
-    public String getAssignedTo() {
-        return assignedTo;
-    }
+
 
     public String getPriority() {
         return priority;

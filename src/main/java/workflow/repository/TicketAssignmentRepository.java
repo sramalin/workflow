@@ -2,6 +2,7 @@ package workflow.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import workflow.domain.Ticket;
+import workflow.domain.TicketAssignment;
 
 import java.util.List;
 
@@ -14,9 +15,9 @@ import java.util.List;
 // CRUD refers Create, Read, Update, Delete
 
 
-public interface TicketRepository extends CrudRepository<Ticket, Long> {
+public interface TicketAssignmentRepository extends CrudRepository<TicketAssignment, Long> {
 
-    List<Ticket> findByName(String varName);
+    List<TicketAssignment> findByuserID(String varName);
 
 }
 

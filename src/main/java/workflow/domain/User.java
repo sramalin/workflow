@@ -1,20 +1,39 @@
 package workflow.domain;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.Date;
+
 /**
  * Created by sramalin on 29/05/17.
  */
+@Entity
 public class User {
 
-    private final long num;
-    private final String userId;
-    private final String firstName;
-    private final String lastName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private  long num;
+    private  String userId;
+    private  String firstName;
+    private  String lastName;
+    private Date dob;
+    private boolean activationStatus;
+    private String password;
+
+
+    public User() {
+    }
 
     public long getNum() {
         return num;
     }
 
     public String getUserId() {
+
         return userId;
     }
 
@@ -26,11 +45,40 @@ public class User {
         return lastName;
     }
 
-    public User(long num, String userId, String firstName, String lastName) {
-
-        this.num = num;
-        this.userId = userId;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Date getDOB() {
+        return dob;
     }
+
+    public boolean getActivationStatus() {
+        return activationStatus;
+    }
+
+    public void setUserId() {
+        this.userId = this.getFirstName()+"_"+this.getLastName();
+    }
+
+    public void setPassword() {
+
+        String hashedPwd = BCrypt.hashpw(this.activationStatus+"_"+this.getLastName(), BCrypt.gensalt());
+        this.password = hashedPwd;
+    }
+
+    public User replace(User user){
+
+
+        firstName = getNotNullParam(user.getFirstName(), firstName);
+        lastName = getNotNullParam(user.getLastName(), lastName);
+        dob = getNotNullParam(user.getDOB(),dob);
+        activationStatus = getNotNullParam(user.getActivationStatus(),activationStatus);
+        return this;
+    }
+
+    private <T> T getNotNullParam(T first, T second) {
+        if(first != null) {
+            return first;
+        }
+        return second;
+
+    }
+
 }
