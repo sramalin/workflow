@@ -24,8 +24,8 @@ public class UserController {
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
     public ResponseEntity userDetails(@RequestBody User user) {
 
-        userService.save(user);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        String userID = userService.save(user);
+        return new ResponseEntity("Successfully created user with userID: "+ userID,HttpStatus.OK);
 
     }
 
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/assignticket", method = RequestMethod.POST)
-    public ResponseEntity assignTicketToUser(@RequestParam String userId, long ticketID) {
+    public ResponseEntity assignTicketToUser(@RequestParam long userId, long ticketID) {
 
 
         userService.assignTicket(userId, ticketID);

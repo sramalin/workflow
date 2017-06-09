@@ -53,8 +53,8 @@ public class User {
         return activationStatus;
     }
 
-    public void setUserId() {
-        this.userId = this.getFirstName()+"_"+this.getLastName();
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public void setPassword() {

@@ -19,6 +19,7 @@ public class TicketService {
 
     public Boolean save(Ticket tkt) {
 
+        tkt.setStatus(Ticket.TicketStatus.NEW);
         ticketRepository.save(tkt);
         return true;
 

@@ -9,9 +9,7 @@ import workflow.repository.TicketAssignmentRepository;
 import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by sramalin on 30/05/17.
@@ -24,14 +22,39 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private TicketAssignmentRepository ticketAssignmentRepository;
+    @Autowired
+    private TicketRepository ticketRepository;
 
-    public Boolean save(User user) {
-        user.setUserId();
+    public String save(User user) {
+        String userID = generateUserID(user.getFirstName(),user.getLastName());
+        user.setUserId(userID);
         user.setPassword();
         userRepository.save(user);
-        return true;
+        return userID;
 
     }
+
+    private String generateUserID(String firstName, String lastName) {
+
+        String UserID = firstName+lastName.charAt(1);
+        System.out.println("generated user id" + UserID);
+        Boolean availability = false;
+        String generatedUserID = UserID;
+        int i = 0 ;
+        do {
+
+            if (i>0)  generatedUserID = UserID+i;
+            if (getUserIDCount(generatedUserID) ==0 ) availability = true;
+            else i++;
+
+        } while(!availability);
+        return generatedUserID;
+    }
+
+    private int getUserIDCount(String generatedUserID) {
+        return userRepository.findByuserId(generatedUserID).size();
+    }
+
 
     public List<User> getUserbyUserId(String userId) {
 
@@ -53,8 +76,12 @@ public class UserService {
     }
 
 
-    public void assignTicket(String userId, long ticketID) {
+    public void assignTicket(long userId, long ticketID) {
 
+        Ticket ticket = ticketRepository.findOne(ticketID);
+        ticket.setStatus(Ticket.TicketStatus.ASSIGNED);
+        ticket.setAssignedTo(userId);
+        ticketRepository.save(ticket);
         ticketAssignmentRepository.save(new TicketAssignment(ticketID, userId));
 
     }

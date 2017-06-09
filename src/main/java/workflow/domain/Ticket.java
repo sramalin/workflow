@@ -13,22 +13,47 @@ public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private  long id;
+    private long id;
 
 
-    private  String name;
+    private String name;
 
-    private   String description;
-
+    private String description;
 
 
     private String priority;
+
+    private String status;
+
+    private long assignedTo;
+
+    public long getAssignedTo() {
+        return assignedTo;
+    }
+
+    public void setAssignedTo(long assignedTo) {
+        this.assignedTo = assignedTo;
+    }
+
+    public enum TicketStatus {
+
+        NEW, ASSIGNED, COMPLETED, CLOSED,REOPENED
+    };
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(TicketStatus ticketStatus) {
+        this.status = ticketStatus.toString();
+    }
 
     public Ticket() {
     }
 
 
-    public Ticket replace(Ticket ticket){
+    public Ticket replace(Ticket ticket) {
 
         name = getNotNullParam(ticket.getName(), name);
         description = getNotNullParam(ticket.getDescription(), description);
@@ -48,14 +73,21 @@ public class Ticket {
         return description;
     }
 
+    public enum TicketPriority {
 
+        HIGH, MEDIUM, LOW
+    };
+
+    public void setPriority(TicketPriority ticketPriority) {
+        this.priority = ticketPriority.toString();
+    }
 
     public String getPriority() {
         return priority;
     }
 
     private <T> T getNotNullParam(T first, T second) {
-        if(first != null) {
+        if (first != null) {
             return first;
         }
         return second;
