@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workflow.domain.Ticket;
 import workflow.repository.TicketRepository;
+import workflow.utilities.CommonUtilities;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ public class TicketService {
 
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private CommonUtilities commonUtilities;
 
     public Boolean save(Ticket tkt) {
 
@@ -42,4 +46,17 @@ public class TicketService {
         ticketRepository.delete(tkt);
         return true;
     }
+
+    public boolean bulkUpload(byte[] csvFile) {
+
+        List<Ticket> tickets = commonUtilities.loadObjectList(Ticket.class, csvFile);
+        for(Ticket tkt:tickets) {
+            tkt.setStatus(Ticket.TicketStatus.NEW);
+            ticketRepository.save(tkt);
+        }
+        return true;
+
+
+    }
+
 }

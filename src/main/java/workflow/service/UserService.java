@@ -8,6 +8,7 @@ import workflow.domain.User;
 import workflow.repository.TicketAssignmentRepository;
 import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
+import workflow.utilities.CommonUtilities;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class UserService {
     private TicketAssignmentRepository ticketAssignmentRepository;
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private CommonUtilities commonUtilities;
 
     public String save(User user) {
         String userID = generateUserID(user.getFirstName(),user.getLastName());
@@ -36,7 +39,8 @@ public class UserService {
 
     private String generateUserID(String firstName, String lastName) {
 
-        String UserID = firstName+lastName.charAt(1);
+
+        String UserID = lastName.substring(0,1).trim()+firstName.trim();
         System.out.println("generated user id" + UserID);
         Boolean availability = false;
         String generatedUserID = UserID;
@@ -83,6 +87,20 @@ public class UserService {
         ticket.setAssignedTo(userId);
         ticketRepository.save(ticket);
         ticketAssignmentRepository.save(new TicketAssignment(ticketID, userId));
+
+    }
+
+    public boolean bulkUpload(byte[] csvFile) {
+
+        List<User> users = commonUtilities.loadObjectList(User.class, csvFile);
+        for(User user:users) {
+            String userID = generateUserID(user.getFirstName(), user.getLastName());
+            user.setUserId(userID);
+            user.setPassword();
+            userRepository.save(user);
+        }
+        return true;
+
 
     }
 }
