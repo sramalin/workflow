@@ -37,7 +37,7 @@ public class Ticket {
 
     public enum TicketStatus {
 
-        NEW, ASSIGNED, COMPLETED, CLOSED,REOPENED
+        NEW, ASSIGNED, INPROGRESS, COMPLETED, CLOSED,REOPENED
     };
 
 

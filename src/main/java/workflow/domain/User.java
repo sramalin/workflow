@@ -20,6 +20,12 @@ public class User {
     private  String userId;
     private  String firstName;
     private  String lastName;
+
+    public String getEmail() {
+        return email;
+    }
+
+    private String email;
     private Date dob;
     private boolean activationStatus;
     private String password;

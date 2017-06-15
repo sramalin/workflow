@@ -55,6 +55,19 @@ public class TicketController {
 
     }
 
+    @RequestMapping(value = "/ticket/bystatus", method = RequestMethod.GET)
+    public List<Ticket> getTicketsByStatus(@RequestParam(value = "status") String varStatus) {
+
+        return ticketService.getTicketsByName(varStatus);
+
+    }
+
+    @RequestMapping(value = "/tickets", method = RequestMethod.GET)
+    public List<Ticket> getAllTickets() {
+
+        return ticketService.getAllTickets();
+
+    }
     @RequestMapping(value = "/ticket/update", method = RequestMethod.PUT)
     public ResponseEntity updateTicketByID(@RequestBody Ticket tkt) {
 
@@ -70,6 +83,7 @@ public class TicketController {
         return new ResponseEntity(HttpStatus.OK);
 
     }
+
 
 
 }

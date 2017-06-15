@@ -34,6 +34,11 @@ public class TicketService {
         return ticketRepository.findByName(varName);
     }
 
+    public List<Ticket> getTicketsByStatus(String varStatus) {
+
+        return ticketRepository.findBystatus(varStatus);
+    }
+
     public Boolean updateTicket(Ticket tkt) {
 
         Ticket persistentTicket = ticketRepository.findOne(tkt.getId());
@@ -59,4 +64,12 @@ public class TicketService {
 
     }
 
+    public List<Ticket> getAllTickets() {
+        Iterable<Ticket> ticketIterable =  ticketRepository.findAll();
+        List<Ticket> ticketList = null;
+        while(ticketIterable.iterator().hasNext()){
+            ticketList.add(ticketIterable.iterator().next());
+        }
+        return ticketList;
+    }
 }
