@@ -24,6 +24,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TicketServiceTest {
 
+
     @Mock
     private CommonUtilities commonUtilities;
     @Mock
@@ -41,6 +42,11 @@ public class TicketServiceTest {
     @After
     public void tearDown() throws Exception {
 
+    }
+
+    @Test
+    public void getAllTickets() throws Exception {
+        System.out.println(ticketService.getAllTickets());
     }
 
     @Test

@@ -58,7 +58,7 @@ public class TicketController {
     @RequestMapping(value = "/ticket/bystatus", method = RequestMethod.GET)
     public List<Ticket> getTicketsByStatus(@RequestParam(value = "status") String varStatus) {
 
-        return ticketService.getTicketsByName(varStatus);
+        return ticketService.getTicketsByStatus(varStatus);
 
     }
 

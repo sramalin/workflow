@@ -80,14 +80,17 @@ public class UserService {
     }
 
 
-    public void assignTicket(long userId, long ticketID) {
+    public boolean assignTicket(long userId, long ticketID) {
 
+        String userEmail = userRepository.findOne(userId).getEmail();
+        String userLastname = userRepository.findOne(userId).getLastName();
         Ticket ticket = ticketRepository.findOne(ticketID);
         ticket.setStatus(Ticket.TicketStatus.ASSIGNED);
         ticket.setAssignedTo(userId);
         ticketRepository.save(ticket);
         ticketAssignmentRepository.save(new TicketAssignment(ticketID, userId));
-
+        commonUtilities.sendMail(userEmail, userLastname, ticket.getId(),ticket.getName());
+        return true;
     }
 
     public boolean bulkUpload(byte[] csvFile) {

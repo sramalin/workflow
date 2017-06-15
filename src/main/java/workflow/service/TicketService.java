@@ -7,7 +7,7 @@ import workflow.repository.TicketRepository;
 import workflow.utilities.CommonUtilities;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by sramalin on 30/05/17.
@@ -61,15 +61,13 @@ public class TicketService {
         }
         return true;
 
-
     }
 
     public List<Ticket> getAllTickets() {
         Iterable<Ticket> ticketIterable =  ticketRepository.findAll();
-        List<Ticket> ticketList = null;
-        while(ticketIterable.iterator().hasNext()){
-            ticketList.add(ticketIterable.iterator().next());
-        }
+        List<Ticket> ticketList= new ArrayList<>();
+        for(Ticket ticket:ticketIterable)
+            ticketList.add(ticket);
         return ticketList;
     }
 }

@@ -4,15 +4,15 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.springframework.stereotype.Component;
-import org.springframework.util.FileSystemUtils;
-import org.springframework.web.multipart.MultipartFile;
-import workflow.domain.Ticket;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
+
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  * Created by sramalin on 12/06/17.
@@ -36,5 +36,38 @@ public class CommonUtilities {
         }
     }
 
+    public boolean sendMail(String toMail, String userLastname, long ticketID, String ticketName) {
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
 
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication("workflowpondy@gmail.com","Password@123");
+                    }
+                });
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(toMail));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(toMail));
+            message.setSubject("File assigned");
+            message.setText("Dear "+ userLastname +"," +
+                    "\n\n Ticket with id - "+ticketID + " and ticket name "+ ticketName +"  has been assigned to you \n\n Regards, Ticket admin");
+
+            Transport.send(message);
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
 }
+
+
