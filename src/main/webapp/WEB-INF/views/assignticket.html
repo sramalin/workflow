@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>assign Ticket</title>
+</head>
+<body>
+<h1>Assign ticket page</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.get("/ticket?name="+
+document.getElementById("test1").value, function(data, status){
+            alert("Data: " + JSON.stringify(data) + "\nStatus: " + status);
+        });
+    });
+});
+</script>
+    <div>
+
+        <label for="ticketID">Enter Ticket Id</label>
+        <input type="text" id="test1" name="name">
+
+    </div>
+    <div>
+        <button  id="search" formtarget="_self">Search Ticket</button>
+    </div>
+
+</body>
+</html>

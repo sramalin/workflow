@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket workflow</title>
+</head>
+<body>
+<h1>Ticket workflow</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+    <Table>
+        <TR>
+        <TD>
+        <div>
+        <!--button  id="bulkUserCreation">Bulk User Creation</button-->
+            <button onclick="window.location.href='/web/user/bulkupload'">Bulk User Creation</button>
+
+        </div>
+        </TD>
+        <TD>
+            <div>
+
+                <button onclick="window.location.href='/web/ticket/bulkupload'">Bulk Ticket Creation</button>
+            </div>
+        </TD>
+        </TR>
+        <TR>
+            <TD>
+                <div>
+
+                    <button onclick="window.location.href='/web/ticket/view'">View Tickets</button>
+                </div>
+            </TD>
+            <TD>
+                <div>
+
+                    <button onclick="window.location.href='/web/user/view'">View Users</button>
+                </div>
+            </TD>
+        </TR>
+        <TR>
+            <TD>
+                <div>
+
+                    <button onclick="window.location.href='/web/ticket/assignticket'">Assign Tickets</button>
+                </div>
+            </TD>
+
+        </TR>
+    </Table>
+
+</body>
+</html>

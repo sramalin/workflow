@@ -5,15 +5,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- * Created by sramalin on 10/06/17.
+ * Created by sramalin on 31/05/17.
  */
 @Controller
-public class UploadUIController {
+public class UIController {
 
-    @RequestMapping(value = "/web/user/bulkuploadtest", method = RequestMethod.GET)
-    public String getTicketsByIDtest() {
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String getIndexPage() {
 
-        return "bulkUpload";
+        return "index";
 
     }
 

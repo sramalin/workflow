@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Users</title>
+</head>
+<body>
+<h1>View Users</h1>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $.get("/ticket?name="+
+document.getElementById("test1").value, function(data, status){
+            alert("Data: " + JSON.stringify(data) + "\nStatus: " + status);
+        });
+    });
+});
+</script>
+    <Table>
+
+        </Table>
+
+</body>
+</html>

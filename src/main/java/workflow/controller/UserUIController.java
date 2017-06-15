@@ -10,10 +10,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserUIController {
 
-    @RequestMapping(value = "/web/user/search", method = RequestMethod.GET)
-    public String getTicketsByID() {
+    @RequestMapping(value = "/web/user/view", method = RequestMethod.GET)
+    public String viewusers() {
 
-        return "searchTicket";
+        return "viewusers";
+
+    }
+
+    @RequestMapping(value = "/web/user/bulkupload", method = RequestMethod.GET)
+    public String uploadUsers() {
+
+        return "bulkuploadUsers";
 
     }
 
