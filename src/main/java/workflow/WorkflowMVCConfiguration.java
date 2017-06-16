@@ -24,8 +24,10 @@ public class WorkflowMVCConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/**").addResourceLocations(
-                "/static/");
+//       // registry.addResourceHandler("/static/**").addResourceLocations(
+//                "/WEB-INF/static/");
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/WEB_INF/static/");
     }
 
     @Override

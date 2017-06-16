@@ -24,6 +24,13 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public List<User> getAllUsers() {
+
+        return userService.getAllUsers();
+
+    }
+
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
     public ResponseEntity userDetails(@RequestBody User user) {
 

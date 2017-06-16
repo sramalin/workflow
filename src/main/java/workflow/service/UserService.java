@@ -10,6 +10,8 @@ import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
 
+import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -105,4 +107,12 @@ public class UserService {
         return true;
 
   }
+
+    public List<User> getAllUsers() {
+        Iterable<User> userIterable =  userRepository.findAll();
+        List<User> userList= new ArrayList<>();
+        for(User user:userIterable)
+            userList.add(user);
+        return userList;
+    }
 }

@@ -27,7 +27,7 @@ $(document).ready(function(){
         $.ajax({
             type: "POST",
             enctype: 'multipart/form-data',
-            url: "/user/upload",
+            url: "/ticket/upload",
             data: data,
             processData: false,
             contentType: false,
@@ -60,8 +60,17 @@ $(document).ready(function(){
     <button  type ="submit" id="uploadFile">Upload file</button>
 </form>
 <h1>Ajax Post Result</h1>
-<span id="result"></span>
-
-
+<Table>
+<TR>
+<div>
+    <span id="result"></span>
+</div>
+</TR>
+<TR>
+    <div>
+    <button onclick="window.location.href='/'">Go back to Home page</button>
+    </div>
+</TR>
+</Table>
 </body>
 </html>

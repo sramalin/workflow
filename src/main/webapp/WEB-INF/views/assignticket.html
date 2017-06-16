@@ -9,23 +9,46 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 $(document).ready(function(){
-    $("button").click(function(){
-        $.get("/ticket?name="+
-document.getElementById("test1").value, function(data, status){
-            alert("Data: " + JSON.stringify(data) + "\nStatus: " + status);
-        });
+    $("#assign").click(function(){
+        $.post("/user/assignticket?userId="+
+document.getElementById("UserID").value+"&ticketID="+document.getElementById("TicketID").value, function(data, status){
+
+
+                $("#result").text(data);
+
+
+        }).fail(function(error) {  $("#result").text("Assignment failed. Please check logs");});
     });
 });
 </script>
     <div>
 
         <label for="ticketID">Enter Ticket Id</label>
-        <input type="text" id="test1" name="name">
+        <input type="text" id="TicketID" name="ticketId">
 
     </div>
     <div>
-        <button  id="search" formtarget="_self">Search Ticket</button>
+
+    <label for="UserID">Enter User Id</label>
+    <input type="text" id="UserID" name="userID">
+
+    </div>
+    <div>
+        <button  id="assign" formtarget="_self">Assign Ticket</button>
     </div>
 
+<h1>Assignment Post Result</h1>
+<Table>
+    <TR>
+    <div>
+<span id="result"></span>
+</div
+    </TR>
+    <TR>
+<div>
+<button onclick="window.location.href='/'">Go back to Home page</button>
+</div>
+    </TR>
+</Table>
 </body>
 </html>

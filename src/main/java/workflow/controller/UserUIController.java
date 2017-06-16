@@ -20,7 +20,7 @@ public class UserUIController {
     @RequestMapping(value = "/web/user/bulkupload", method = RequestMethod.GET)
     public String uploadUsers() {
 
-        return "bulkuploadUsers";
+        return "bulkuploadusers";
 
     }
 
