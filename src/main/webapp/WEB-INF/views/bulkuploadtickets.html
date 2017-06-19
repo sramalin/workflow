@@ -8,6 +8,16 @@
 <h1>Bulk upload Tickets</h1>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
+function validateFileExtension(file) {
+
+    var ext = file.split(".");
+    ext = ext[ext.length-1].toLowerCase();
+    if (ext!="csv") {
+        alert("Only csv files are allowed");
+        $("#fileUpload").val("");
+    }
+    }
+
 $(document).ready(function(){
      $("#uploadFile").click(function (event) {
 
@@ -68,11 +78,14 @@ $(document).ready(function(){
 
 
 });
+
+
+
 </script>
 
 
 <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-    <input type="file" id="fileUpload" name="file"/><br/><br/>
+    <input type="file" id="fileUpload" name="file" onChange="validateFileExtension(this.value)"/><br/><br/>
 
     <button  type ="submit" id="uploadFile">Upload file</button>
 </form>
