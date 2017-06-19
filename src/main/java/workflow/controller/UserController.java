@@ -44,7 +44,7 @@ public class UserController {
                                            RedirectAttributes redirectAttributes) throws IOException {
 
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return new ResponseEntity("No file selected..", HttpStatus.PRECONDITION_FAILED);
 
         }
 

@@ -11,44 +11,51 @@
 $(document).ready(function(){
      $("#uploadFile").click(function (event) {
 
-        //stop submit the form, we will post it manually.
-        event.preventDefault();
-
-        // Get form
-        var form = $('#fileUploadForm')[0];
-
-		// Create an FormData object
-        var data = new FormData(form);
+         event.preventDefault();
 
 
-		// disabled the submit button
-        $("#uploadFile").prop("disabled", true);
+         if($("#fileUpload").val()=='') {
 
-        $.ajax({
-            type: "POST",
-            enctype: 'multipart/form-data',
-            url: "/user/upload",
-            data: data,
-            processData: false,
-            contentType: false,
-            cache: false,
-            timeout: 600000,
-            success: function (data) {
+            alert("No file selected. Please select one to upload !");
 
-                $("#result").text(data);
-                console.log("SUCCESS : ", data);
-                $("#uploadFile").prop("disabled", false);
 
-            },
-            error: function (e) {
+         }
+         else{
+                // Get form
+                var form = $('#fileUploadForm')[0];
 
-                $("#result").text(e.responseText);
-                console.log("ERROR : ", e);
-                $("#btnSubmit").prop("disabled", false);
+                // Create an FormData object
+                var data = new FormData(form);
 
-            }
-        });
 
+                // disabled the submit button
+                $("#uploadFile").prop("disabled", true);
+
+                $.ajax({
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    url: "/user/upload",
+                    data: data,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    timeout: 600000,
+                    success: function (data) {
+
+                        $("#result").text(data);
+                        console.log("SUCCESS : ", data);
+                        $("#uploadFile").prop("disabled", false);
+
+                    },
+                    error: function (e) {
+
+                        $("#result").text(e.responseText);
+                        console.log("ERROR : ", e);
+                        $("#btnSubmit").prop("disabled", false);
+
+                    }
+                });
+         }
     });
 
 });
@@ -56,7 +63,7 @@ $(document).ready(function(){
 
 
 <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
-    <input type="file" name="file" /><br/><br/>
+    <input type="file" id="fileUpload" name="file" /><br/><br/>
     <button  type ="submit" id="uploadFile">Upload file</button>
 </form>
 <h1>Ajax Post Result</h1>

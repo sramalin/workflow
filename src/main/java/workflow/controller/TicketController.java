@@ -35,16 +35,17 @@ public class TicketController {
                                            RedirectAttributes redirectAttributes) throws IOException {
 
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return new ResponseEntity("No file selected..", HttpStatus.PRECONDITION_FAILED);
 
         }
 
         String fileName = file.getOriginalFilename();
         byte[] bytes = file.getBytes();
 
-        ticketService.bulkUpload(bytes);
-
-        return new ResponseEntity("Upload successful", HttpStatus.ACCEPTED);
+        if(ticketService.bulkUpload(bytes))
+            return new ResponseEntity("Upload successful", HttpStatus.ACCEPTED);
+        else
+            return new ResponseEntity("Upload failed. Please check the logs for further information", HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
 

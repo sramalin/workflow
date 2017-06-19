@@ -54,6 +54,8 @@ public class TicketService {
 
     public boolean bulkUpload(byte[] csvFile) {
 
+        if(csvFile.length ==0)
+            return false;
         List<Ticket> tickets = commonUtilities.loadObjectList(Ticket.class, csvFile);
         for(Ticket tkt:tickets) {
             tkt.setStatus(Ticket.TicketStatus.NEW);

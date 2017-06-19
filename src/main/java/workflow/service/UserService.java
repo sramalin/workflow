@@ -97,6 +97,8 @@ public class UserService {
 
     public boolean bulkUpload(byte[] csvFile) {
 
+        if(csvFile.length ==0)
+            return false;
         List<User> users = commonUtilities.loadObjectList(User.class, csvFile);
         for(User user:users) {
             String userID = generateUserID(user.getFirstName(), user.getLastName());
