@@ -1,6 +1,7 @@
 package workflow.controller;
 
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +35,18 @@ public class TicketController {
     public ResponseEntity singleFileUpload(@RequestParam("file") MultipartFile file,
                                            RedirectAttributes redirectAttributes) throws IOException {
 
+        String fileName = file.getOriginalFilename();
+        String fileExtension = FilenameUtils.getExtension(fileName);
+
+        if (!fileExtension.equalsIgnoreCase("csv") ) {
+            return new ResponseEntity("Only CSV files are allowed", HttpStatus.PRECONDITION_FAILED);
+
+        }
         if (file.isEmpty()) {
             return new ResponseEntity("No file selected..", HttpStatus.PRECONDITION_FAILED);
 
         }
 
-        String fileName = file.getOriginalFilename();
         byte[] bytes = file.getBytes();
 
         if(ticketService.bulkUpload(bytes))
