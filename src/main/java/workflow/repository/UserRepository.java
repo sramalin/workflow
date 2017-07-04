@@ -16,11 +16,14 @@ import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 
-    List<User> findByuserId(String userID);
+
     List<User> findByfirstName(String firstName);
     List<User> findBylastName(String lastName);
     List<User> findBydob(Date dob);
     List<User> findByactivationStatus(Boolean activationStatus);
+
+
+    List<User> findByusername(String lowercaseLogin);
 
 
 }

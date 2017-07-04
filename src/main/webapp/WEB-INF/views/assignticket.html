@@ -10,7 +10,7 @@
 <script>
 $(document).ready(function(){
     $("#assign").click(function(){
-        $.post("/user/assignticket?userId="+
+        $.post("/user/assignticket?username="+
 document.getElementById("UserID").value+"&ticketID="+document.getElementById("TicketID").value, function(data, status){
 
 
