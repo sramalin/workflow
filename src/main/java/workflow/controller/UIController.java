@@ -17,4 +17,14 @@ public class UIController {
 
     }
 
+    //TODO:REVIEW URL NAMING CONVENTION
+
+    @RequestMapping(value = "/createtickets", method = RequestMethod.GET)
+    public String getCreateTicketPage() {
+
+        return "admin_create_new_ticket_upload_file";
+
+    }
+
 }
+

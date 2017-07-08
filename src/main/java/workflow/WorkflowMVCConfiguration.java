@@ -14,6 +14,10 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan(basePackages = "workflow.controller")
 public class WorkflowMVCConfiguration extends WebMvcConfigurerAdapter {
 
+    private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
+            "classpath:/META-INF/resources/", "classpath:/resources/",
+            "classpath:/static/", "classpath:/public/" };
+
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -26,8 +30,10 @@ public class WorkflowMVCConfiguration extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //       // registry.addResourceHandler("/static/**").addResourceLocations(
 //                "/WEB-INF/static/");
-        registry.addResourceHandler("/static/**")
-                .addResourceLocations("classpath:/WEB_INF/static/");
+        // registry.addResourceHandler("/static/**")
+        //         .addResourceLocations("classpath:/WEB_INF/static/");
+
+        registry.addResourceHandler("/static/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
     }
 
     @Override
