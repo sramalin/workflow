@@ -68,7 +68,7 @@ public class UserController {
     @RequestMapping(value = "/user/byuserid", method = RequestMethod.GET)
     public List<User> getUserByUserID(@RequestParam(value = "userID") String varUserID) {
 
-        return userService.getUserbyUserId(varUserID);
+        return userService.getUserbyUsername(varUserID);
 
     }
 

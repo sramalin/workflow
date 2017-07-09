@@ -10,7 +10,6 @@ import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class UserService {
 
     public String save(User user) {
         String userID = generateUserID(user.getFirstName(),user.getLastName());
-        user.setUserId(userID);
+        user.setUsername(userID);
         user.setPassword();
         userRepository.save(user);
         return userID;
@@ -58,13 +57,13 @@ public class UserService {
     }
 
     private int getUserIDCount(String generatedUserID) {
-        return userRepository.findByuserId(generatedUserID).size();
+        return userRepository.findByusername(generatedUserID).size();
     }
 
 
-    public List<User> getUserbyUserId(String userId) {
+    public List<User> getUserbyUsername(String userId) {
 
-        return userRepository.findByuserId(userId);
+        return userRepository.findByusername(userId);
     }
 
 
@@ -102,7 +101,7 @@ public class UserService {
         List<User> users = commonUtilities.loadObjectList(User.class, csvFile);
         for(User user:users) {
             String userID = generateUserID(user.getFirstName(), user.getLastName());
-            user.setUserId(userID);
+            user.setUsername(userID);
             user.setPassword();
             userRepository.save(user);
         }

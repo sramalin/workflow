@@ -1,12 +1,15 @@
 package workflow.domain;
 
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import workflow.security.Authorities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by sramalin on 29/05/17.
@@ -17,9 +20,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  long num;
-    private  String userId;
+    private  String username;
     private  String firstName;
     private  String lastName;
+
 
     public String getEmail() {
         return email;
@@ -28,6 +32,11 @@ public class User {
     private String email;
     private Date dob;
     private boolean activationStatus;
+
+    public String getPassword() {
+        return password;
+    }
+
     private String password;
 
 
@@ -38,9 +47,9 @@ public class User {
         return num;
     }
 
-    public String getUserId() {
+    public String getUsername() {
 
-        return userId;
+        return username;
     }
 
     public String getFirstName() {
@@ -59,14 +68,18 @@ public class User {
         return activationStatus;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword() {
 
-        String hashedPwd = BCrypt.hashpw(this.activationStatus+"_"+this.getLastName(), BCrypt.gensalt());
+        //String hashedPwd = BCrypt.hashpw(this.activationStatus+"_"+this.getLastName(), BCrypt.gensalt());
+        //this.password = hashedPwd;
+        StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder();
+        String hashedPwd = standardPasswordEncoder.encode("password");
         this.password = hashedPwd;
+
     }
 
     public User replace(User user){
