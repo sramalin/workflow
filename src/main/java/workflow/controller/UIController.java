@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * Created by sramalin on 31/05/17.
  */
+
+/* Modified by talupu on 10/07/17 to add mapping for create new tickets/users */
+
+
 @Controller
 public class UIController {
 
@@ -26,5 +30,11 @@ public class UIController {
 
     }
 
+    @RequestMapping(value = "/createusers", method = RequestMethod.GET)
+    public String getCreateUserPage() {
+
+        return "admin_create_new_user";
+
+    }
 }
 
