@@ -1,21 +1,21 @@
- /** Create new users upload file **/
+ /************************* Create new users upload file ***********************/
 
 $(document).ready(function(){
-     $("#uploadFile").click(function (event) {
+     $("#uploadUserfile").click(function (event) {
          event.preventDefault();
-         if($("#fileUpload").val()=='') {
+         if($("#userfileUpload").val()=='') {
             alert("No file selected. Please select one to upload !");
          }
          else{
                 // Get form
-                var form = $('#fileUploadForm')[0];
+                var form = $('#userfileUploadForm')[0];
 
                 // Create an FormData object
                 var data = new FormData(form);
 
 
                 // disabled the submit button
-                $("#uploadFile").prop("disabled", true);
+                $("#uploadUserfile").prop("disabled", true);
 
                 $.ajax({
                     type: "POST",
@@ -30,7 +30,7 @@ $(document).ready(function(){
 
                         $("#result").text(data);
                         console.log("SUCCESS : ", data);
-                        $("#uploadFile").prop("disabled", false);
+                        $("#uploadUserfile").prop("disabled", false);
 
                     },
                     error: function (e) {
@@ -52,12 +52,12 @@ function validateFileExtension(file) {
     ext = ext[ext.length-1].toLowerCase();
     if (ext!="csv") {
         alert("Only csv files are allowed");
-        $("#fileUpload").val("");
+        $("#userfileUpload").val("");
     }
     }
 
 
- /** Create new ticket upload file **/
+ /************************ Create new ticket upload file **************************/
  $(document).ready(function($) {
           $(".table-row").click(function() {
               window.location = $(this).data("href");
