@@ -36,5 +36,19 @@ public class UIController {
         return "admin_create_new_user";
 
     }
+
+    @RequestMapping(value = "/viewallusers", method = RequestMethod.GET)
+    public String getViewAllUsersPage() {
+
+        return "admin_view_users";
+
+    }
+
+    @RequestMapping(value = "/viewalltickets", method = RequestMethod.GET)
+    public String getViewAllTicketsPage() {
+
+        return "admin_view_tickets";
+
+    }
 }
 
