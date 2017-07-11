@@ -23,6 +23,13 @@ public class UIController {
 
     //TODO:REVIEW URL NAMING CONVENTION
 
+    @RequestMapping(value = "/admintasks", method = RequestMethod.GET)
+    public String getAdminTasksPage() {
+
+        return "admin_tasks";
+
+    }
+
     @RequestMapping(value = "/createtickets", method = RequestMethod.GET)
     public String getCreateTicketPage() {
 
