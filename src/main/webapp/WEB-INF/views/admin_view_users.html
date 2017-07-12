@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Sonsie+One" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="styles/index.processed.css">
+  <link rel="stylesheet" href="/static/css/index.processed.css">
 </head>
 <body>
 <div class="container">
@@ -21,7 +21,7 @@
   </div>
   <div class="row">
     <div class="col-md-4 col-sm-4 col-xs-4"></div>
-    <div class="col-md-6 col-sm-6 col-xs-6"><a href="admin_create_and_view_ticket.html"><i class="fa fa-home home-logo"></i></a></div>
+    <div class="col-md-6 col-sm-6 col-xs-6"><a href="/"><i class="fa fa-home home-logo"></i></a></div>
     <div class="col-md-2 col-sm-2 col-xs-2"></div>
   </div>
   <div class="row">
@@ -29,7 +29,8 @@
     <div class="col-md-10 col-sm-10 col-xs-10">
       <table data-toggle="table"
              data-url="/users"
-             data-click-to-select="true">
+             data-click-to-select="true"
+             data-striped="true">
         <thead>
         <tr>
           <th data-field="username">User name</th>
