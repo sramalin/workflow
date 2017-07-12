@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Sonsie+One" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="styles/index.processed.css">
+  <link rel="stylesheet" href="/static/css/index.processed.css">
 </head>
 <body>
   <div class="container">
@@ -21,7 +21,7 @@
     </div>
     <div class="row">
       <div class="col-md-4 col-sm-4 col-xs-4"></div>
-      <div class="col-md-6 col-sm-6 col-xs-6"><a href="admin_create_and_view_ticket.html"><i class="fa fa-home home-logo"></i></a></div>
+      <div class="col-md-6 col-sm-6 col-xs-6"><a href="/"><i class="fa fa-home home-logo"></i></a></div>
       <div class="col-md-2 col-sm-2 col-xs-2"></div>     
     </div>
     <div class="row">
@@ -29,7 +29,9 @@
       <div class="col-md-10 col-sm-10 col-xs-10">
           <table class="table table-striped table-bordered" data-toggle="table"
                  data-url="/tickets"
-                 data-click-to-select="true">
+                 data-pagination="true"
+                 data-classes="table table-bordered table-striped"
+                 >
               <thead>
               <tr>
                   <th data-field="name">Name</th>
@@ -49,6 +51,7 @@
  </body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <!--script src="/static/scripts/assign_me.js"></script-->
   <script type="text/javascript">
@@ -57,5 +60,6 @@ $(document).ready(function($) {
         window.document.location = $(this).data("href");
     });
 });
+
 </script>
-  
+
