@@ -79,6 +79,12 @@ public class TicketController {
         return ticketService.getTicketsByStatus(varStatus);
 
     }
+    @RequestMapping(value = "/ticket/byassignedto", method = RequestMethod.GET)
+    public List<Ticket> getTicketsByAssignedTo(@RequestParam(value = "userName") String userName) {
+
+        return ticketService.getTicketsByAssignedTo(userName);
+
+    }
 
     @RequestMapping(value = "/tickets", method = RequestMethod.GET)
     public List<Ticket> getAllTickets() {

@@ -27,7 +27,7 @@
       <div class="row">
           <div class="col-md-1 col-sm-1 col-xs-1"></div>
           <div class="col-md-10 col-sm-10 col-xs-10">
-              <table class="table table-striped table-bordered" data-toggle="table"
+              <table id="ticketData" class="table table-striped table-bordered" data-toggle="table"
                      data-url="/ticket/getnextticket"
                      data-click-to-select="true">
                   <thead>
@@ -56,7 +56,11 @@
       <div class="col-md-6 col-sm-6 col-xs-6"><a href="#" class="btn btn-info btn-xl btn-block" role="button" >Skip - Get another ticket</a></div>
       <div class="col-md-2 col-sm-2 col-xs-2"></div>     
     </div>
+
     
+  </div>
+  <div>
+      <span id="result"></span>
   </div>
   </div>
 </body>
@@ -70,5 +74,7 @@ $(document).ready(function($) {
         window.document.location = $(this).data("href");
     });
 });
+
+
 </script>
 

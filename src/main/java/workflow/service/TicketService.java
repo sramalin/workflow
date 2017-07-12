@@ -3,7 +3,9 @@ package workflow.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workflow.domain.Ticket;
+import workflow.domain.User;
 import workflow.repository.TicketRepository;
+import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
 import workflow.utilities.TicketComparator;
 
@@ -21,6 +23,8 @@ public class TicketService {
 
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private CommonUtilities commonUtilities;
 
@@ -113,5 +117,11 @@ public class TicketService {
             return lowPriorityList.get(0);
 
         return null;
+    }
+
+    public List<Ticket> getTicketsByAssignedTo(String userName) {
+
+        List<User> user = userRepository.findByusername(userName);
+        return ticketRepository.findByassignedTo(user.get(0).getNum());
     }
 }

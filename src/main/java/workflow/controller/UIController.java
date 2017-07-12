@@ -71,5 +71,12 @@ public class UIController {
         return "user_get_single_ticket";
 
     }
+
+    @RequestMapping(value = "/web/user/userviewtickets", method = RequestMethod.GET)
+    public String getUserViewTickets() {
+
+        return "view_single_user";
+
+    }
 }
 

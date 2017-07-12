@@ -2,44 +2,23 @@
 
 $(document).ready(function(){
      $("#AssignMe").click(function (event) {
-         event.preventDefault();
+          var response =  $('#ticketData').bootstrapTable('getData');
+          var username = document.getElementById("username").value;
+          alert(username);
+          alert(response[0].id);
 
-                // Get form
-                var form = $('#userfileUploadForm')[0];
+          var ticketID = response[0].id;
+      $.post("/user/assignticket?username="+
+document.getElementById("username").value+"&ticketID="+ticketID, function(data, status){
+                $("#result").text(data);
+        }).fail(function(error) {  $("#result").text("Assignment failed. Please check logs");});
 
-                // Create an FormData object
-                var data = new FormData(form);
 
 
-                // disabled the submit button
-                $("#uploadUserfile").prop("disabled", true);
 
-                $.ajax({
-                    type: "POST",
-                    enctype: 'multipart/form-data',
-                    url: "/user/upload",
-                    data: data,
-                    processData: false,
-                    contentType: false,
-                    cache: false,
-                    timeout: 600000,
-                    success: function (data) {
-
-                        $("#result").text(data);
-                        console.log("SUCCESS : ", data);
-                        $("#uploadUserfile").prop("disabled", false);
-
-                    },
-                    error: function (e) {
-
-                        $("#result").text(e.responseText);
-                        console.log("ERROR : ", e);
-                        $("#btnSubmit").prop("disabled", false);
-
-                    }
-                });
-
-    });
+ });
 
 });
+
+
 
