@@ -89,11 +89,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/assignticket", method = RequestMethod.POST)
-    public ResponseEntity assignTicketToUser(@RequestParam long userId, long ticketID) {
+    public ResponseEntity assignTicketToUser(@RequestParam String userName, long ticketID) {
 
         String displayMsg = "Assignment completed and mail has been sent to the assigned user";
         String errorMsg = "Assignment not completed. Please check system log";
-        if(userService.assignTicket(userId, ticketID))
+        if(userService.assignTicket(userName, ticketID))
 
             return new ResponseEntity(displayMsg, HttpStatus.OK);
         else

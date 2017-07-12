@@ -81,11 +81,12 @@ public class UserService {
     }
 
 
-    public boolean assignTicket(long userId, long ticketID) {
+    public boolean assignTicket(String userName, long ticketID) {
 
-        String userEmail = userRepository.findOne(userId).getEmail();
-        String userLastname = userRepository.findOne(userId).getLastName();
+        String userEmail = userRepository.findByusername(userName).get(0).getEmail();
+        String userLastname = userRepository.findByusername(userName).get(0).getLastName();
         Ticket ticket = ticketRepository.findOne(ticketID);
+        long userId = userRepository.findByusername(userName).get(0).getNum();
         ticket.setStatus(Ticket.TicketStatus.ASSIGNED);
         ticket.setAssignedTo(userId);
         ticketRepository.save(ticket);

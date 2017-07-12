@@ -1,12 +1,9 @@
- /************************* Create new users upload file ***********************/
+ /************************* Assign me related functions***********************/
 
 $(document).ready(function(){
-     $("#uploadUserfile").click(function (event) {
+     $("#AssignMe").click(function (event) {
          event.preventDefault();
-         if($("#userfileUpload").val()=='') {
-            alert("No file selected. Please select one to upload !");
-         }
-         else{
+
                 // Get form
                 var form = $('#userfileUploadForm')[0];
 
@@ -41,7 +38,7 @@ $(document).ready(function(){
 
                     }
                 });
-         }
+
     });
 
 });

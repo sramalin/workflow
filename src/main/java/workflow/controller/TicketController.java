@@ -12,6 +12,8 @@ import workflow.service.TicketService;
 import workflow.domain.Ticket;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -60,6 +62,14 @@ public class TicketController {
     public List<Ticket> getTicketsByName(@RequestParam(value = "name") String varName) {
 
         return ticketService.getTicketsByName(varName);
+
+    }
+
+    @RequestMapping(value = "/ticket/getnextticket", method = RequestMethod.GET)
+    public List<Ticket> getNextAssignableTicket() {
+
+        List<Ticket> ticketList = Arrays.asList(ticketService.getNextAssignableTicket());
+        return ticketList;
 
     }
 

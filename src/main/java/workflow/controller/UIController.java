@@ -57,5 +57,19 @@ public class UIController {
         return "admin_view_tickets";
 
     }
+
+    @RequestMapping(value = "/web/user/userhomepage", method = RequestMethod.GET)
+    public String getUserHomePage() {
+
+        return "user_get_and_view_tickets";
+
+    }
+
+    @RequestMapping(value = "/web/user/userassignticket", method = RequestMethod.GET)
+    public String getAssignTicketPage() {
+
+        return "user_get_single_ticket";
+
+    }
 }
 
