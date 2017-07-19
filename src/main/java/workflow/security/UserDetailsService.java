@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import workflow.domain.User;
+import workflow.domain.Authority;
 import workflow.repository.UserRepository;
 
 import java.util.ArrayList;
@@ -34,23 +35,23 @@ public class UserDetailsService implements org.springframework.security.core.use
         String lowercaseLogin = login.toLowerCase();
 
         List<User> userFromDatabase;
-
         userFromDatabase = userRepository.findByusername(lowercaseLogin);
 
 
         if (userFromDatabase == null) {
             throw new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database");
-        } else if (!userFromDatabase.get(0).getActivationStatus()) {
-            throw new UserNotActivatedException("User " + lowercaseLogin + " is not activated");
         }
-        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-
-            GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(Authorities.ROLE_USER.toString());
-            grantedAuthorities.add(grantedAuthority);
 
 
-        return new org.springframework.security.core.userdetails.User(userFromDatabase.get(0).getUsername(),userFromDatabase.get(0).getPassword(), grantedAuthorities);
+            Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+            for (Authority authority : userFromDatabase.get(0).getAuthorities()) {
+                GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(authority.getName());
+                grantedAuthorities.add(grantedAuthority);
+            }
+
+            return new org.springframework.security.core.userdetails.User(userFromDatabase.get(0).getUsername(), userFromDatabase.get(0).getPassword(), grantedAuthorities);
+
+        }
 
     }
 
-}

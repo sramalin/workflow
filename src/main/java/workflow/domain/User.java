@@ -4,10 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import workflow.security.Authorities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,9 +14,10 @@ import java.util.Set;
 @Entity
 public class User {
 
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  long num;
+    @Id
     private  String username;
     private  String firstName;
     private  String lastName;
@@ -38,6 +36,21 @@ public class User {
     }
 
     private String password;
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "authority"))
+    private Set<Authority> authorities;
 
 
     public User() {

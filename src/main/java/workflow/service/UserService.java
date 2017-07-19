@@ -22,6 +22,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private TicketAssignmentRepository ticketAssignmentRepository;
     @Autowired
@@ -97,6 +98,7 @@ public class UserService {
 
     public boolean bulkUpload(byte[] csvFile) {
 
+        User createdUser;
         if(csvFile.length ==0)
             return false;
         List<User> users = commonUtilities.loadObjectList(User.class, csvFile);
@@ -105,7 +107,10 @@ public class UserService {
             user.setUsername(userID);
             user.setPassword();
             userRepository.save(user);
+
         }
+
+
         return true;
 
   }

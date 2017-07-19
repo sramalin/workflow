@@ -1,6 +1,8 @@
 package workflow.controller;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,8 +26,13 @@ public class UIController {
     //TODO:REVIEW URL NAMING CONVENTION
 
     @RequestMapping(value = "/admintasks", method = RequestMethod.GET)
-    public String getAdminTasksPage() {
+    public String getAdminTasksPage(Model model) {
 
+        org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+
+
+        model.addAttribute("LoggedInUser", name);
         return "admin_tasks";
 
     }
@@ -76,6 +83,12 @@ public class UIController {
     public String getUserViewTickets() {
 
         return "view_single_user";
+
+    }
+    @RequestMapping(value = "/mylogin", method = RequestMethod.GET)
+    public String getmylogin() {
+
+        return "index";
 
     }
 }
