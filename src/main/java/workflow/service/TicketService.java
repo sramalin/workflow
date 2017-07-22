@@ -124,4 +124,14 @@ public class TicketService {
         List<User> user = userRepository.findByusername(userName);
         return ticketRepository.findByassignedTo(user.get(0).getNum());
     }
+
+    public Boolean setTicketCompletion(Long ticketID) {
+
+        Ticket tkt = ticketRepository.findOne(ticketID);
+        tkt.setStatus(Ticket.TicketStatus.COMPLETED);
+
+        ticketRepository.save(tkt);
+        return true;
+
+    }
 }

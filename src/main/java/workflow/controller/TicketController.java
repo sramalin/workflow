@@ -108,6 +108,12 @@ public class TicketController {
 
     }
 
+    @RequestMapping(value = "/ticket/complete", method = RequestMethod.PUT)
+    public ResponseEntity completeTicketByID(@RequestParam Long TicketId) {
 
+        ticketService.setTicketCompletion(TicketId);
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
 
 }
