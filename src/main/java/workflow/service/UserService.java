@@ -13,6 +13,9 @@ import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
 
 import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -118,6 +121,49 @@ public class UserService {
         return true;
 
   }
+
+    public boolean UserBulkUpload(byte[] csvFile) throws ParseException {
+
+
+        User createdUser;
+        User newUser = new User();
+        if(csvFile.length ==0)
+            return false;
+        List<String[]> csvRows= commonUtilities.loadManyToManyRelationship(csvFile);
+        for(String[] row:csvRows) {
+            String username = generateUserID(row[0].toString(), row[1].toString());
+            String firstName = row[0].toString();
+            String lastName = row[1].toString();
+            String dob = row[2].toString();
+            DateFormat df = new SimpleDateFormat("yyyy-dd-MM");
+            Date dobConverted = df.parse(dob);
+            String activationStatus = row[3].toString();
+            String email = row[4].toString();
+            String roleName = row[5].toString();
+            System.out.println("Read roles"+ roleName);
+
+            newUser.setUsername(username);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setPassword();
+            newUser.setActivationStatus(Boolean.parseBoolean(activationStatus));
+            newUser.setDob(dobConverted);
+            newUser.setEmail(email);
+
+
+            createdUser =userRepository.save(newUser);
+            System.out.println(createdUser.getFirstName() + " user successfully created");
+
+            for(String roleitem:roleName.split("-"))
+                System.out.println("Assignment status:  "+updateUserWithRole(createdUser.getUsername(),roleitem));
+
+
+        }
+
+
+        return true;
+
+    }
     public boolean bulkRoleAssignment(byte[] csvFile) {
 
 
@@ -148,16 +194,16 @@ public class UserService {
         Authority authority  = authorityRepository.findOne(rolename);
 
         authset.add(authority);
-        System.out.println("### Authority fetched"+ authority.getName());
+
 
         User currentUser = userRepository.findOne(username.trim());
 
-        System.out.println("### auth set before: " +authset.size());
+
         authset.add(authority);
         authset.addAll(currentUser.getAuthorities());
-        System.out.println("### auth set after: " +authset.size());
+
         currentUser.setAuthorities(authset);
-        System.out.println("current user authority" + currentUser.getAuthorities().toString());
+
         userRepository.save(currentUser);
 
         return true;

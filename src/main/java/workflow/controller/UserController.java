@@ -14,6 +14,7 @@ import workflow.domain.User;
 import workflow.service.UserService;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,11 @@ public class UserController {
 
         byte[] bytes = file.getBytes();
 
-        userService.bulkUpload(bytes);
+        try {
+            userService.UserBulkUpload(bytes);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         return new ResponseEntity("Upload successful", HttpStatus.ACCEPTED);
 
