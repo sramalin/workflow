@@ -2,16 +2,18 @@ package workflow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import workflow.domain.Authority;
 import workflow.domain.Ticket;
 import workflow.domain.TicketAssignment;
 import workflow.domain.User;
+import workflow.repository.AuthorityRepository;
 import workflow.repository.TicketAssignmentRepository;
 import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
 
 /**
  * Created by sramalin on 30/05/17.
@@ -22,6 +24,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuthorityRepository authorityRepository;
 
     @Autowired
     private TicketAssignmentRepository ticketAssignmentRepository;
@@ -70,7 +74,7 @@ public class UserService {
 
     public Boolean updateUser(User user) {
 
-        User persistentUser = userRepository.findOne(user.getNum());
+        User persistentUser = userRepository.findOne(user.getUsername());
         userRepository.save(persistentUser.replace(user));
         return true;
     }
@@ -114,6 +118,50 @@ public class UserService {
         return true;
 
   }
+    public boolean bulkRoleAssignment(byte[] csvFile) {
+
+
+        if(csvFile.length ==0)
+            return false;
+        List<String[]> csvRows = commonUtilities.loadManyToManyRelationship(csvFile);
+        for(String[] row:csvRows) {
+            String username = row[0].toString();
+            String rolename = row[1].toString();
+            System.out.println("### csv user"+ username);
+            System.out.println("### csv rolename"+ rolename);
+
+            System.out.println("Assignment status : "+updateUserWithRole(username, rolename));
+
+        }
+
+
+        return true;
+
+    }
+    @Transactional
+
+    public boolean updateUserWithRole(String username, String rolename) {
+
+        Set<Authority> authset = new HashSet<>();
+
+        List<User> listofUsers = userRepository.findByusername(username);
+        Authority authority  = authorityRepository.findOne(rolename);
+
+        authset.add(authority);
+        System.out.println("### Authority fetched"+ authority.getName());
+
+        User currentUser = userRepository.findOne(username.trim());
+
+        System.out.println("### auth set before: " +authset.size());
+        authset.add(authority);
+        authset.addAll(currentUser.getAuthorities());
+        System.out.println("### auth set after: " +authset.size());
+        currentUser.setAuthorities(authset);
+        System.out.println("current user authority" + currentUser.getAuthorities().toString());
+        userRepository.save(currentUser);
+
+        return true;
+    }
 
     public List<User> getAllUsers() {
         Iterable<User> userIterable =  userRepository.findAll();

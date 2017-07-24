@@ -45,11 +45,11 @@ public class User {
         this.authorities = authorities;
     }
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_authority",
             joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "authority"))
+            inverseJoinColumns = @JoinColumn(name = "authority",referencedColumnName="name"))
     private Set<Authority> authorities;
 
 

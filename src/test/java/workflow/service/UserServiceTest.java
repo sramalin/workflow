@@ -13,6 +13,16 @@ import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
 
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.Path;
+
+
+import java.io.File;
+import java.nio.file.FileSystem;
+
 import static org.junit.Assert.*;
 
 /**
@@ -52,6 +62,16 @@ public class UserServiceTest {
 
         byte[] bytes = new byte[0];
         assertFalse(userService.bulkUpload(bytes));
+
+    }
+
+//TODO - To fix
+    @Test
+    public void shouldReturnTrueAfterSuccessfuleAssignment() throws Exception {
+
+        String userName = "admin";
+        String roleName = "ROLE_USER";
+        assertTrue(userService.updateUserWithRole(userName,roleName));
 
     }
 

@@ -65,6 +65,30 @@ public class UserController {
 
     }
 
+    @RequestMapping(value = "/user/roleassignment", method = RequestMethod.POST, consumes = "multipart/form-data")
+    public ResponseEntity roleAssignment(@RequestParam("file") MultipartFile file,
+                                           RedirectAttributes redirectAttributes) throws IOException {
+
+        String fileName = file.getOriginalFilename();
+        String fileExtension = FilenameUtils.getExtension(fileName);
+        if (!fileExtension.equalsIgnoreCase("csv") ) {
+            return new ResponseEntity("Only CSV files are allowed", HttpStatus.PRECONDITION_FAILED);
+
+        }
+
+        if (file.isEmpty() ) {
+            return new ResponseEntity("No file selected..", HttpStatus.PRECONDITION_FAILED);
+
+        }
+
+        byte[] bytes = file.getBytes();
+
+        userService.bulkRoleAssignment(bytes);
+
+        return new ResponseEntity("Upload successful", HttpStatus.ACCEPTED);
+
+    }
+
     @RequestMapping(value = "/user/byuserid", method = RequestMethod.GET)
     public List<User> getUserByUserID(@RequestParam(value = "userID") String varUserID) {
 

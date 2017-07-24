@@ -2,11 +2,13 @@ package workflow.utilities;
 
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvParser;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 
-
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -36,6 +38,20 @@ public class CommonUtilities {
         }
     }
 
+    public List<String[]> loadManyToManyRelationship(byte[] csvFile) {
+        try {
+            CsvMapper mapper = new CsvMapper();
+            CsvSchema bootstrapSchema = CsvSchema.emptySchema().withSkipFirstDataRow(true);
+            mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);
+            MappingIterator<String[]> readValues =
+                    mapper.readerFor(String[].class).with(bootstrapSchema).readValues(csvFile);
+            return readValues.readAll();
+        } catch (Exception e) {
+            System.out.println("Error occurred while loading many to many relationship from file = " + csvFile);
+            System.out.println(e.getMessage());
+            return Collections.emptyList();
+        }
+    }
     public boolean sendMail(String toMail, String userLastname, long ticketID, String ticketName) {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
