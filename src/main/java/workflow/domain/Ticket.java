@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.sql.Timestamp;
 
 /**
  * Created by sramalin on 29/05/17.
@@ -20,6 +21,15 @@ public class Ticket {
 
     private String description;
 
+    public Timestamp getCreatedTimeStamp() {
+        return createdTimeStamp;
+    }
+
+    public void setCreatedTimeStamp(Timestamp createdTimeStamp) {
+        this.createdTimeStamp = createdTimeStamp;
+    }
+
+    private Timestamp createdTimeStamp;
 
     private String priority;
 

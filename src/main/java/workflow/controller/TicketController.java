@@ -12,6 +12,8 @@ import workflow.service.TicketService;
 import workflow.domain.Ticket;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -63,10 +65,24 @@ public class TicketController {
 
     }
 
+    @RequestMapping(value = "/ticket/getnextticket", method = RequestMethod.GET)
+    public List<Ticket> getNextAssignableTicket() {
+
+        List<Ticket> ticketList = Arrays.asList(ticketService.getNextAssignableTicket());
+        return ticketList;
+
+    }
+
     @RequestMapping(value = "/ticket/bystatus", method = RequestMethod.GET)
     public List<Ticket> getTicketsByStatus(@RequestParam(value = "status") String varStatus) {
 
         return ticketService.getTicketsByStatus(varStatus);
+
+    }
+    @RequestMapping(value = "/ticket/byassignedto", method = RequestMethod.GET)
+    public List<Ticket> getTicketsByAssignedTo(@RequestParam(value = "userName") String userName) {
+
+        return ticketService.getTicketsByAssignedTo(userName);
 
     }
 
@@ -92,6 +108,12 @@ public class TicketController {
 
     }
 
+    @RequestMapping(value = "/ticket/complete", method = RequestMethod.PUT)
+    public ResponseEntity completeTicketByID(@RequestParam Long TicketId) {
 
+        ticketService.setTicketCompletion(TicketId);
+        return new ResponseEntity(HttpStatus.OK);
+
+    }
 
 }

@@ -2,16 +2,21 @@ package workflow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import workflow.domain.Authority;
 import workflow.domain.Ticket;
 import workflow.domain.TicketAssignment;
 import workflow.domain.User;
+import workflow.repository.AuthorityRepository;
 import workflow.repository.TicketAssignmentRepository;
 import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created by sramalin on 30/05/17.
@@ -22,6 +27,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
     @Autowired
     private TicketAssignmentRepository ticketAssignmentRepository;
     @Autowired
@@ -69,7 +77,7 @@ public class UserService {
 
     public Boolean updateUser(User user) {
 
-        User persistentUser = userRepository.findOne(user.getNum());
+        User persistentUser = userRepository.findOne(user.getUsername());
         userRepository.save(persistentUser.replace(user));
         return true;
     }
@@ -81,11 +89,12 @@ public class UserService {
     }
 
 
-    public boolean assignTicket(long userId, long ticketID) {
+    public boolean assignTicket(String userName, long ticketID) {
 
-        String userEmail = userRepository.findOne(userId).getEmail();
-        String userLastname = userRepository.findOne(userId).getLastName();
+        String userEmail = userRepository.findByusername(userName).get(0).getEmail();
+        String userLastname = userRepository.findByusername(userName).get(0).getLastName();
         Ticket ticket = ticketRepository.findOne(ticketID);
+        long userId = userRepository.findByusername(userName).get(0).getNum();
         ticket.setStatus(Ticket.TicketStatus.ASSIGNED);
         ticket.setAssignedTo(userId);
         ticketRepository.save(ticket);
@@ -96,6 +105,7 @@ public class UserService {
 
     public boolean bulkUpload(byte[] csvFile) {
 
+        User createdUser;
         if(csvFile.length ==0)
             return false;
         List<User> users = commonUtilities.loadObjectList(User.class, csvFile);
@@ -104,10 +114,100 @@ public class UserService {
             user.setUsername(userID);
             user.setPassword();
             userRepository.save(user);
+
         }
+
+
         return true;
 
   }
+
+    public boolean UserBulkUpload(byte[] csvFile) throws ParseException {
+
+
+        User createdUser;
+        User newUser = new User();
+        if(csvFile.length ==0)
+            return false;
+        List<String[]> csvRows= commonUtilities.loadManyToManyRelationship(csvFile);
+        for(String[] row:csvRows) {
+            String username = generateUserID(row[0].toString(), row[1].toString());
+            String firstName = row[0].toString();
+            String lastName = row[1].toString();
+            String dob = row[2].toString();
+            DateFormat df = new SimpleDateFormat("yyyy-dd-MM");
+            Date dobConverted = df.parse(dob);
+            String activationStatus = row[3].toString();
+            String email = row[4].toString();
+            String roleName = row[5].toString();
+            System.out.println("Read roles"+ roleName);
+
+            newUser.setUsername(username);
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setPassword();
+            newUser.setActivationStatus(Boolean.parseBoolean(activationStatus));
+            newUser.setDob(dobConverted);
+            newUser.setEmail(email);
+
+
+            createdUser =userRepository.save(newUser);
+            System.out.println(createdUser.getFirstName() + " user successfully created");
+
+            for(String roleitem:roleName.split("-"))
+                System.out.println("Assignment status:  "+updateUserWithRole(createdUser.getUsername(),roleitem));
+
+
+        }
+
+
+        return true;
+
+    }
+    public boolean bulkRoleAssignment(byte[] csvFile) {
+
+
+        if(csvFile.length ==0)
+            return false;
+        List<String[]> csvRows = commonUtilities.loadManyToManyRelationship(csvFile);
+        for(String[] row:csvRows) {
+            String username = row[0].toString();
+            String rolename = row[1].toString();
+            System.out.println("### csv user"+ username);
+            System.out.println("### csv rolename"+ rolename);
+
+            System.out.println("Assignment status : "+updateUserWithRole(username, rolename));
+
+        }
+
+
+        return true;
+
+    }
+    @Transactional
+
+    public boolean updateUserWithRole(String username, String rolename) {
+
+        Set<Authority> authset = new HashSet<>();
+
+        List<User> listofUsers = userRepository.findByusername(username);
+        Authority authority  = authorityRepository.findOne(rolename);
+
+        authset.add(authority);
+
+
+        User currentUser = userRepository.findOne(username.trim());
+
+
+        authset.add(authority);
+        authset.addAll(currentUser.getAuthorities());
+
+        currentUser.setAuthorities(authset);
+
+        userRepository.save(currentUser);
+
+        return true;
+    }
 
     public List<User> getAllUsers() {
         Iterable<User> userIterable =  userRepository.findAll();

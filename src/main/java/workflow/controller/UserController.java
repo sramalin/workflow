@@ -14,6 +14,7 @@ import workflow.domain.User;
 import workflow.service.UserService;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,35 @@ public class UserController {
 
         byte[] bytes = file.getBytes();
 
-        userService.bulkUpload(bytes);
+        try {
+            userService.UserBulkUpload(bytes);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity("Upload successful", HttpStatus.ACCEPTED);
+
+    }
+
+    @RequestMapping(value = "/user/roleassignment", method = RequestMethod.POST, consumes = "multipart/form-data")
+    public ResponseEntity roleAssignment(@RequestParam("file") MultipartFile file,
+                                           RedirectAttributes redirectAttributes) throws IOException {
+
+        String fileName = file.getOriginalFilename();
+        String fileExtension = FilenameUtils.getExtension(fileName);
+        if (!fileExtension.equalsIgnoreCase("csv") ) {
+            return new ResponseEntity("Only CSV files are allowed", HttpStatus.PRECONDITION_FAILED);
+
+        }
+
+        if (file.isEmpty() ) {
+            return new ResponseEntity("No file selected..", HttpStatus.PRECONDITION_FAILED);
+
+        }
+
+        byte[] bytes = file.getBytes();
+
+        userService.bulkRoleAssignment(bytes);
 
         return new ResponseEntity("Upload successful", HttpStatus.ACCEPTED);
 
@@ -89,11 +118,11 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/assignticket", method = RequestMethod.POST)
-    public ResponseEntity assignTicketToUser(@RequestParam long userId, long ticketID) {
+    public ResponseEntity assignTicketToUser(@RequestParam String username, long ticketID) {
 
         String displayMsg = "Assignment completed and mail has been sent to the assigned user";
         String errorMsg = "Assignment not completed. Please check system log";
-        if(userService.assignTicket(userId, ticketID))
+        if(userService.assignTicket(username, ticketID))
 
             return new ResponseEntity(displayMsg, HttpStatus.OK);
         else

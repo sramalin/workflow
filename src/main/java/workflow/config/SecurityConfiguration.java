@@ -1,26 +1,19 @@
-package workflow;
+package workflow.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
-import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
-
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -38,30 +31,39 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
 
     }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth
+//                .inMemoryAuthentication()
+//                .withUser("admin").password("admin").roles("USER");
+//    }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
-
-        web
-                .ignoring();
-
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
+                .antMatchers("/admintasks").hasRole("ADMIN")
+                .antMatchers("/createusers").permitAll()
+                //.antMatchers( "/users").hasRole("USER")
+                //.antMatchers( "/secondpage").hasAnyRole("ADMIN","USER")
+                //.antMatchers( "/secure").hasAnyRole("ADMIN")
+                .and()
+                .formLogin()
+                .loginPage("/mylogin").permitAll()
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/default",true)
+                .and()
+                .csrf()
+                .disable()
+                .logout()
+                .permitAll();
 
     }
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
-    public static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
-        @Override
-        protected MethodSecurityExpressionHandler createExpressionHandler() {
-            return new OAuth2MethodSecurityExpressionHandler();
-        }
-
-    }
+//    @Override
+//    @Bean
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
 
 }
-

@@ -4,10 +4,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import workflow.security.Authorities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -17,9 +14,10 @@ import java.util.Set;
 @Entity
 public class User {
 
-    @Id
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     private  long num;
+    @Id
     private  String username;
     private  String firstName;
     private  String lastName;
@@ -27,6 +25,23 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setDob(Date dob) {
+
+        this.dob = dob;
     }
 
     private String email;
@@ -38,6 +53,21 @@ public class User {
     }
 
     private String password;
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = @JoinColumn(name = "username"),
+            inverseJoinColumns = @JoinColumn(name = "authority",referencedColumnName="name"))
+    private Set<Authority> authorities;
 
 
     public User() {
@@ -66,6 +96,10 @@ public class User {
 
     public boolean getActivationStatus() {
         return activationStatus;
+    }
+
+    public void setActivationStatus(boolean activationStatus) {
+        this.activationStatus = activationStatus;
     }
 
     public void setUsername(String username) {
