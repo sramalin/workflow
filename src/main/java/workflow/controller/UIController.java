@@ -57,5 +57,13 @@ public class UIController {
         return "admin_view_tickets";
 
     }
+
+    @RequestMapping(value = "/viewticket", method = RequestMethod.GET)
+    public String getViewATicketPage() {
+
+        return "view_single_ticket";
+
+    }
+
 }
 

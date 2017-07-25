@@ -1,4 +1,5 @@
- /************************* Create new users upload file ***********************/
+
+/************************* Create new users upload file ***********************/
 
 $(document).ready(function(){
      $("#uploadUserfile").click(function (event) {
@@ -46,7 +47,7 @@ $(document).ready(function(){
 
 });
 
-function validateFileExtension(file) {
+/* function validateFileExtension(file) {
 
     var ext = file.split(".");
     ext = ext[ext.length-1].toLowerCase();
@@ -55,14 +56,15 @@ function validateFileExtension(file) {
         $("#userfileUpload").val("");
     }
     }
-
+ */
 
  /************************ Create new ticket upload file **************************/
- $(document).ready(function($) {
+ /* $(document).ready(function($) {
           $(".table-row").click(function() {
               window.location = $(this).data("href");
           });
       });
+*/
 
 function validateFileExtension(file) {
     var ext = file.split(".");
@@ -72,6 +74,7 @@ function validateFileExtension(file) {
         $("#fileUpload").val("");
     }
     }
+
 $(document).ready(function(){
      $("#uploadFile").click(function (event) {
          //stop submitting the form, we will post it manually.
@@ -109,3 +112,4 @@ $(document).ready(function(){
          }
     });
 });
+
