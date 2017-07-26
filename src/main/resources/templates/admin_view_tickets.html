@@ -10,8 +10,9 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Sonsie+One" rel="stylesheet"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="/static/css/index.processed.css"/>
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css"/>
+  <link rel="stylesheet" href="/static/css/index.processed.css"/>
+
 </head>
 <body>
   <div class="container">
@@ -25,13 +26,13 @@
       <div class="col-md-6 col-sm-6 col-xs-6"><a href="/"><i class="fa fa-home home-logo"></i></a></div>
       <div class="col-md-2 col-sm-2 col-xs-2"></div>     
     </div>
-    <div class="row">
-      <div class="col-md-1 col-sm-1 col-xs-1"></div>
-      <div class=" col-md-10 col-sm-10 col-xs-10">
+    <div id="ticket_table" class="row">
+        <div class="col-md-1 col-sm-1 col-xs-1"></div>
+        <div class="col-md-10 col-sm-10 col-xs-10">
           <table data-toggle="table"
                  data-url="/tickets"
                  data-pagination="true"
-                 data-classes="table show table-bordered table-hover">
+                 data-classes="table borderless table-hover">
               <thead>
               <tr>
                   <th data-classes="ticketName" data-field="name" data-formatter="nameFormatter">Name</th>
@@ -41,88 +42,58 @@
               </tr>
               </thead>
           </table>
-
+        </div>
+        <div class="col-md-1 col-sm-1 col-xs-1"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-5 col-sm-5 col-xs-5"></div>
+      <div class="col-md-7 col-sm-7 col-xs-7">
+          <form action="/logout" method="POST">
+            <input id="logoff" type="submit" value="Logout"/>
+          </form>
       </div>
-
-            <a id="showticket" class="hide" data-toggle="modal" href="#myModal">Open Ticket</a>
-
-            <!-- Modal -->
-            <div id="myModal" class="modal fade" role="dialog">
-                <div class="modal-dialog modal-lg">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Ticket Details</h4>
-                        </div>
-                        <div class="modal-body">
-                            <div id="details-without-table">
-                                <p id="ticketId"></p>
-                                <p id="ticketName"></p>
-                                <p id="ticketStatus"></p>
-                                <p id="ticketPriority"></p>
-                                <p id="ticketAssignee"></p>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+    <!-- Modal -->
+    <div class="row">
+        <div class="col-md-10 col-sm-10 col-xs-1">
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Ticket Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="ticket-details">
+                            <p id="ticketId"></p>
+                            <p id="ticketName"></p>
+                            <p id="ticketPriority"></p>
+                            <p id="ticketStatus"></p>
+                            <p id="ticketAssignee"></p>
                         </div>
                     </div>
-
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
                 </div>
             </div>
-
-
         </div>
-
-      <div class="col-md-1 col-sm-1 col-xs-1"></div>     
+        </div>
     </div>
-      <span id="result"></span>
+    <div class="row">
+        <div class="col-md-1 col-sm-1 col-xs-1"></div>
+    </div>
+  </div>
+  <span id="result"></span>
  </body>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-
-<!-- Latest compiled and minified Locales -->
-
-  <script src="/static/scripts/index.js"></script>
-  <script type="text/javascript">
-      function nameFormatter(value){
-          return '<a href="#" onclick="eachTicket(\''+value+'\');">' + value + '</a>';
-
-      }
-      function eachTicket(value){
-          $.ajax({
-              type: "GET",
-              url: "/ticket?name=" + value,
-              dataType:"json",
-              timeout: 600000,
-              success: function (data, status) {
-                  // below code is because there is a bug in server side rendering of json - whole array of all ids are rendered
-                  // instead of just the one clicked. Needs to be fixed.
-                  var mydata = data[0];
-                  console.log("data", data);
-                  console.log(mydata);
-                  // end of hack code to work around server side json rendering bug. Needs to be fixed.
-                  //populating pop-up window
-                  $("#myModal").modal();
-                  $('#details-without-table > p#ticketId').text("TicketID:" + mydata.id);
-                  $('#details-without-table > p#ticketName').text(mydata.name);
-                  $('#details-without-table > p#ticketPriority').text(mydata.priority);
-                  $('#details-without-table > p#ticketStatus').text(mydata.status);
-                  $('#details-without-table > p#ticketAssignee').text(mydata.assignedTo);
-              },
-              error: function (e) {
-                  console.log("ERROR");
-              }
-          });
-      }
-  </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+<script src="/static/scripts/index.js"></script>
 
 
-<!--script src="/static/scripts/viewScreens.js"></script-->
 </html>

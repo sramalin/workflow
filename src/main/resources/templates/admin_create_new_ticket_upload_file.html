@@ -23,20 +23,21 @@
     </div>
     <div class="row">
       <div class="col-md-4 col-sm-4 col-xs-4"></div>
-      <div class="col-md-6 col-sm-6 col-xs-6"><a href="/"><i class="fa fa-home home-logo"></i></a></div>
-      <div class="col-md-3 col-sm-2 col-xs-2"></div>     
+      <div class="col-md-6 col-sm-6 col-xs-6"><a href="/admintasks"><i class="fa fa-home home-logo"></i></a></div>
+      <div class="col-md-3 col-sm-2 col-xs-2"></div>
     </div>
+    <div id="result" class="hide alert alert-success"></div>
     <form method="POST" enctype="multipart/form-data" id="fileUploadForm">
       <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-3"></div>
         <div class="col-md-6 col-sm-6 col-xs-6">
-          <label class="btn btn-file btn-info"><input type="file" id="fileUpload" name="file" onChange="validateFileExtension(this.value)"/></label>
+          <label id="uploadPath" class="show btn btn-file btn-info"><input type="file" id="fileUpload" name="file" onChange="validateFileExtension(this.value)"/></label>
         </div>
         <div class="col-md-2 col-sm-2 col-xs-2"></div>
       </div>
       <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-3"></div>
-        <div class="col-md-6 col-sm-6 col-xs-6"><button type="submit" id="uploadFile" class="last-button btn btn-info btn-block btn-xl btn-upload">Upload</button></div>
+        <div class="col-md-6 col-sm-6 col-xs-6"><button type="submit" id="uploadFile" class="show last-button btn btn-info btn-block btn-xl btn-upload">Upload</button></div>
         <div class="col-md-2 col-sm-2 col-xs-2"></div>
       </div>
     </form>
@@ -47,8 +48,12 @@
         </div>
         <div class="col-md-2 col-md-2 col-xs-2"></div>
     </div>
-    <div>
-      <span id="result"></span>
+    <div class="row">
+      <div class="col-md-5 col-sm-5 col-xs-5"></div>
+      <div class="col-md-7 col-sm-7 col-xs-7"><form action="/logout" method="POST">
+        <input id="logoff" type="submit" value="Logout"/>
+      </form></div>
+
     </div>
   </div>
   </body>
