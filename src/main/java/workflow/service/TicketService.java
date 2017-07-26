@@ -128,9 +128,11 @@ public class TicketService {
     public Boolean setTicketCompletion(Long ticketID) {
 
         Ticket tkt = ticketRepository.findOne(ticketID);
-        tkt.setStatus(Ticket.TicketStatus.COMPLETED);
-
-        ticketRepository.save(tkt);
+        if(tkt.getStatus()!= "COMPLETED" &&  tkt.getStatus()!= "CLOSED" )
+        {
+            tkt.setStatus(Ticket.TicketStatus.COMPLETED);
+            ticketRepository.save(tkt);
+        }
         return true;
 
     }
