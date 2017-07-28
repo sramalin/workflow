@@ -28,11 +28,11 @@ $(document).ready(function(){
                     cache: false,
                     timeout: 600000,
                     success: function (data) {
-
                         $("#result").text(data);
-                        console.log("SUCCESS : ", data);
                         $("#uploadUserfile").prop("disabled", false);
-
+                        $('#result').removeClass("hide").addClass("show");
+                        $('#uploadUserfile').removeClass("show").addClass("hide");
+                        $('#uploaduserPath').removeClass("show").addClass("hide");
                     },
                     error: function (e) {
 
@@ -117,7 +117,7 @@ $(document).ready(function(){
 
 /*********************** Name formatter to format the ticket name into an href ************************************/
 function nameFormatter(value){
-    return '<a href="#" onclick="eachTicket(\''+value+'\');">' + value + '</a>';
+    return '<a id="ticketlink" href="#" onclick="eachTicket(\''+value+'\');">' + value + '</a>';
 
 }
 
@@ -142,6 +142,40 @@ function eachTicket(value){
             $('#ticket-details > p#ticketPriority').text(mydata.priority);
             $('#ticket-details > p#ticketStatus').text(mydata.status);
             $('#ticket-details > p#ticketAssignee').text(mydata.assignedTo);
+        },
+        error: function (e) {
+            console.log("ERROR");
+        }
+    });
+}
+
+/*********************** UserName formatter to format the user name into an href ************************************/
+function usernameFormatter(value){
+    return '<a id="userlink" href="#" onclick="eachUser(\''+value+'\');">' + value + '</a>';
+
+}
+
+function eachUser(value){
+    $.ajax({
+        type: "GET",
+        url: "/user/byuserid?userID=" + value,
+        dataType:"json",
+        timeout: 600000,
+        success: function (data, status) {
+            // below code is because there is a bug in server side rendering of json - whole array is rendered
+            // instead of just the one element clicked. Needs to be fixed on server side code.
+            var mydata = data[0];
+            console.log("data", data);
+            console.log(mydata);
+            // end of hack code to work around server side json rendering bug. Needs to be fixed.
+
+            //populating the pop-up window
+            $("#myuserModal").modal();
+            $('#user-details > p#username').text("Username:" + mydata.username);
+            $('#user-details > p#firstName').text(mydata.firstName);
+            $('#user-details > p#lastName').text(mydata.lastName);
+            $('#user-details > p#email').text(mydata.email);
+            $('#user-details > p#activationStatus').text(mydata.activationStatus);
         },
         error: function (e) {
             console.log("ERROR");

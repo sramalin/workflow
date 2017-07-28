@@ -4,17 +4,17 @@
  */
 
 body {
-  background: #eeeeee;
+  background: #9ab2ca;
   margin: 10%;
 }
 
 .interaction {
-  background: #eeeeee;
+  background: #9ab2ca;
   padding-bottom: 5%;
 }
 
 h1 {
-  color: #614c92;
+  color: #000000;
   text-align: center;
   font-size: 2em;
   margin: 12%;
@@ -43,11 +43,10 @@ label {
   color: #555555;
 }
 
-.login-button,
 .btn-xl {
   font-family: 'Roboto Slab';
   font-weight: lighter;
-  color: #555555;
+  color: #d97957;
   margin-top: 7%;
 }
 
@@ -66,7 +65,7 @@ label {
 }
 
 .btn-info {
-  background: #999999;
+  background: #cebaa0;
   color: #000000;
   border: 1px solid #000000;
 }
@@ -81,8 +80,7 @@ label {
 }
 
 .btn-info:hover {
-  padding: 1.5%;
-  background: #614c92;
+  background: #d97957;
   color: #ffffff;
   border: 1px solid #000000;
 }
@@ -95,8 +93,7 @@ label {
 }
 
 .btn-upload {
-  background: #614c92;
-  color: #ffffff;
+  background: #cebaa0;
   border: 1px solid #000000;
   width: 50%;
   margin: 0 auto;
@@ -105,11 +102,24 @@ label {
 }
 
 .btn-upload:hover {
-  background: #999999;
-  color: #000000;
-  border: 1px solid #000000;
-  padding: 1.5%;
+  background: #d97957;
 }
+
+#fileUpload{
+  background: #cebaa0;
+  margin: 0 auto;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+#uploadPath{
+  background: #cebaa0;
+}
+
+#uploaduserPath{
+  background: #cebaa0;
+}
+
 
 .rights {
   font-size: 0.75em;
@@ -121,23 +131,51 @@ label {
 
 .home-logo {
   font-size: 5em;
-  color: #000000;
+  color: #d97957;
   margin-left: 20%;
-  border: 4px solid #daa520;
-  border-radius: 50%;
   padding: 5%;
 }
 
 .home-logo:hover {
-  font-size: 4.75em;
-  border: 4px solid #614c92;
-  color: #666666;
+  border: 1px solid #cebaa0;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  border-radius:50%;
+}
+.bootstrap-table{
+  background-color:#9bb3c9 ;
+  font-family: 'Roboto Slab';
+  padding-left:0;
 }
 
-table {
-  margin: 0 auto;
-  margin-left: 10%;
-  margin-top: 5%;
+.bootstrap-table tr:hover{
+  background-color: #cebaa0;
+}
+
+#tickets_view_page{
+  background-color:#cebaa0 ;
+}
+#ticketlink{
+  color:#d97957;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+#ticketlink:hover{
+  font-size: 1.1em;
+  font-weight:bold;
+}
+
+#userlink{
+  color:#d97957;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+#userlink:hover{
+  background-color:#9bb3c9;
+  font-size: 1.1em;
+  font-weight:bold;
 }
 
 #ticket_desc {
@@ -207,8 +245,7 @@ table {
 }
 
 #logoff{
-  background-color:#daa520;
-  border-radius:1%;
+  background-color:#d97957;
   padding:1%;
   margin-top:3%;
   font-family: 'Roboto Slab';
@@ -217,14 +254,55 @@ table {
 }
 
 #logoff:hover{
-  background-color:#555555;
-  color:antiquewhite;
+  background-color:#5e9699;
+  color:#000000;
 }
 
 #ticket_table{
   margin-top:5%;
 }
 
+#user_table{
+  margin-top:5%;
+}
+
 #result{
   margin-top:5%;
+}
+
+.login-button{
+  font-family: 'Roboto Slab';
+  font-weight: lighter;
+  background-color: #cebaa0;
+  margin-top: 7%;
+}
+
+.login-button:hover{
+  background-color:#d97957;
+}
+
+input#fileUpload{
+  padding:0;
+  background-color:#cebaa0;
+  border:0px;
+  margin:0;
+  color:#000000;
+}
+
+input#fileUpload:hover{
+  padding:0;
+  margin:0;
+}
+
+input#userfileUpload{
+  padding:0;
+  background-color:#cebaa0;
+  border:0px;
+  margin:0;
+  color:#000000;
+}
+
+input#userfileUpload:hover{
+  padding:0;
+  margin:0;
 }
