@@ -1,6 +1,7 @@
 package workflow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import workflow.domain.Authority;
 import workflow.domain.Ticket;
@@ -89,18 +90,40 @@ public class UserService {
     }
 
 
-    public boolean assignTicket(String userName, long ticketID) {
+    public String assignTicket(String userName, long ticketID) {
 
-        String userEmail = userRepository.findByusername(userName).get(0).getEmail();
-        String userLastname = userRepository.findByusername(userName).get(0).getLastName();
-        Ticket ticket = ticketRepository.findOne(ticketID);
-        long userId = userRepository.findByusername(userName).get(0).getNum();
-        ticket.setStatus(Ticket.TicketStatus.ASSIGNED);
-        ticket.setAssignedTo(userId);
-        ticketRepository.save(ticket);
-        ticketAssignmentRepository.save(new TicketAssignment(ticketID, userId));
-        commonUtilities.sendMail(userEmail, userLastname, ticket.getId(),ticket.getName());
-        return true;
+        String displayMsg = "Assignment completed and mail has been sent to the assigned user";
+        String errorMsg = "Assignment not completed. Please check system log";
+        try {
+            String userEmail = userRepository.findOne(userName).getEmail();
+            String userLastname = userRepository.findOne(userName).getLastName();
+            if (checkExistingAssignedTicket(userName))
+                return "Assignment Failed. You have got one or more tickets in Assigned State";
+
+            Ticket ticket = ticketRepository.findOne(ticketID);
+
+            ticket.setStatus(Ticket.TicketStatus.ASSIGNED);
+            ticket.setAssignedTo(userName);
+            ticketRepository.save(ticket);
+            ticketAssignmentRepository.save(new TicketAssignment(ticketID, userName));
+            commonUtilities.sendMail(userEmail, userLastname, ticket.getId(), ticket.getName());
+            return displayMsg;
+        }
+        catch (Exception e){
+            return errorMsg + e.getMessage();
+        }
+
+
+    }
+
+    private boolean checkExistingAssignedTicket(String userName) {
+        List<TicketAssignment> existingAssignedTickets = ticketAssignmentRepository.findByuserID(userName);
+        for (TicketAssignment ticketAssignment:existingAssignedTickets){
+            Ticket existingTicket = ticketRepository.findOne(ticketAssignment.getTicketID());
+            if(existingTicket.getStatus().equals(Ticket.TicketStatus.ASSIGNED))
+                return true;
+        }
+        return false;
     }
 
     public boolean bulkUpload(byte[] csvFile) {
@@ -215,5 +238,14 @@ public class UserService {
         for(User user:userIterable)
             userList.add(user);
         return userList;
+    }
+
+    public String assignTicketToLoggedInUser(long ticketID) {
+        org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName(); //get logged in username
+
+        System.out.println("Assigning "+ticketID +" to user "+username);
+        return assignTicket(username,ticketID);
+
     }
 }

@@ -3,7 +3,9 @@ package workflow.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import workflow.domain.Ticket;
+import workflow.domain.TicketAssignment;
 import workflow.domain.User;
+import workflow.repository.TicketAssignmentRepository;
 import workflow.repository.TicketRepository;
 import workflow.repository.UserRepository;
 import workflow.utilities.CommonUtilities;
@@ -27,11 +29,14 @@ public class TicketService {
     private UserRepository userRepository;
     @Autowired
     private CommonUtilities commonUtilities;
+    @Autowired
+    private TicketAssignmentRepository ticketAssignmentRepository;
+
 
     public Boolean save(Ticket tkt) {
 
         tkt.setStatus(Ticket.TicketStatus.NEW);
-        Timestamp timestamp =  new Timestamp(System.currentTimeMillis());
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         tkt.setCreatedTimeStamp(timestamp);
         System.out.println("### Ticket creation time ###" + timestamp);
 
@@ -65,10 +70,10 @@ public class TicketService {
 
     public boolean bulkUpload(byte[] csvFile) {
 
-        if(csvFile.length ==0)
+        if (csvFile.length == 0)
             return false;
         List<Ticket> tickets = commonUtilities.loadObjectList(Ticket.class, csvFile);
-        for(Ticket tkt:tickets) {
+        for (Ticket tkt : tickets) {
             tkt.setStatus(Ticket.TicketStatus.NEW);
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             //java.sql.Date currentTimestamp = new java.sql.Date(Calendar.getInstance().getTime().getTime());
@@ -81,9 +86,9 @@ public class TicketService {
     }
 
     public List<Ticket> getAllTickets() {
-        Iterable<Ticket> ticketIterable =  ticketRepository.findAll();
-        List<Ticket> ticketList= new ArrayList<>();
-        for(Ticket ticket:ticketIterable)
+        Iterable<Ticket> ticketIterable = ticketRepository.findAll();
+        List<Ticket> ticketList = new ArrayList<>();
+        for (Ticket ticket : ticketIterable)
             ticketList.add(ticket);
         return ticketList;
     }
@@ -109,31 +114,33 @@ public class TicketService {
                 .filter(x -> "MEDIUM".equals(x.getPriority()))
                 .collect(Collectors.toList());
 
-        if (highPriorityList.size()!=0)
+        if (highPriorityList.size() != 0)
             return highPriorityList.get(0);
-        if (mediumPriorityList.size()!=0)
+        if (mediumPriorityList.size() != 0)
             return mediumPriorityList.get(0);
-        if (lowPriorityList.size()!=0)
+        if (lowPriorityList.size() != 0)
             return lowPriorityList.get(0);
 
         return null;
     }
 
-    public List<Ticket> getTicketsByAssignedTo(String userName) {
-
-        List<User> user = userRepository.findByusername(userName);
-        return ticketRepository.findByassignedTo(user.get(0).getNum());
-    }
 
     public Boolean setTicketCompletion(Long ticketID) {
 
         Ticket tkt = ticketRepository.findOne(ticketID);
-        if(tkt.getStatus()!= "COMPLETED" &&  tkt.getStatus()!= "CLOSED" )
-        {
+        if (tkt.getStatus() != "COMPLETED" && tkt.getStatus() != "CLOSED") {
             tkt.setStatus(Ticket.TicketStatus.COMPLETED);
             ticketRepository.save(tkt);
         }
         return true;
 
+    }
+
+    public List<Ticket> getTicketsByAssignedTo(String userName) {
+        List<Ticket> ticketList = null;
+        List<TicketAssignment> existingAssignedTickets = ticketAssignmentRepository.findByuserID(userName);
+        for (TicketAssignment ticketAssignment : existingAssignedTickets)
+            ticketList.add(ticketRepository.findOne(ticketAssignment.getTicketID()));
+        return ticketList;
     }
 }

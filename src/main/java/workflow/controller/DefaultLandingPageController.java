@@ -15,6 +15,6 @@ public class DefaultLandingPageController {
         if (request.isUserInRole("ROLE_ADMIN")) {
             return "redirect:/admintasks";
         }
-        return "redirect:/userhomepage/";
+        return "redirect:/web/user/userhomepage/";
     }
 }

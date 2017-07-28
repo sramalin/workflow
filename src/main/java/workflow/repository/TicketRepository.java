@@ -17,9 +17,9 @@ import java.util.List;
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
 
     List<Ticket> findByName(String varName);
+    List<Ticket> findByassignedTo(String varName);
 
-    List<Ticket> findBystatus(String varStatus);
 
-    List<Ticket> findByassignedTo(long userName);
+    List<Ticket> findBystatus(String aNew);
 }
 
