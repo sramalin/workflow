@@ -123,7 +123,7 @@ label {
 
 .rights {
   font-size: 0.75em;
-  color: #999999;
+  color: #d97957;
   border-top: 1px dotted #888888;
   margin-top: 5%;
   padding-top: 1%;
@@ -254,7 +254,7 @@ label {
 }
 
 #logoff:hover{
-  background-color:#5e9699;
+  background-color:#d97957;
   color:#000000;
 }
 
@@ -273,12 +273,15 @@ label {
 .login-button{
   font-family: 'Roboto Slab';
   font-weight: lighter;
-  background-color: #cebaa0;
+  background-color: #d97957;
+  margin:0 auto;
   margin-top: 7%;
+
 }
 
 .login-button:hover{
-  background-color:#d97957;
+  background-color:#cebaa0;
+  color:#000000;
 }
 
 input#fileUpload{
@@ -305,4 +308,15 @@ input#userfileUpload{
 input#userfileUpload:hover{
   padding:0;
   margin:0;
+}
+
+#email{
+  background-color:#cebaa0;
+  border:1px solid #000000;
+}
+
+#pwd{
+  background-color:#cebaa0;
+  border:1px solid #000000;
+
 }
