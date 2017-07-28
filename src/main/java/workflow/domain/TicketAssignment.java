@@ -17,13 +17,13 @@ public class TicketAssignment {
 
     private long ticketID;
 
-    private long userID;
+    private String userID;
 
 
     public TicketAssignment() {
     }
 
-    public TicketAssignment(long ticketID, long userID) {
+    public TicketAssignment(long ticketID, String userID) {
         this.ticketID = ticketID;
         this.userID = userID;
     }
@@ -39,7 +39,7 @@ public class TicketAssignment {
         return ticketID;
     }
 
-    public long getUserID() {
+    public String getUserID() {
         return userID;
     }
 

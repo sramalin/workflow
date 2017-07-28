@@ -35,15 +35,17 @@ public class Ticket {
 
     private String status;
 
-    private long assignedTo;
-
-    public long getAssignedTo() {
+    public String getAssignedTo() {
         return assignedTo;
     }
 
-    public void setAssignedTo(long assignedTo) {
+    public void setAssignedTo(String assignedTo) {
         this.assignedTo = assignedTo;
     }
+
+    private String assignedTo;
+
+
 
     public enum TicketStatus {
 

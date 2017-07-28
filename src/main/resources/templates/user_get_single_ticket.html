@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en"/>
 <head>
   
   <!--  Meta  -->
@@ -8,9 +10,9 @@
   
   <!--  Styles  -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Sonsie+One" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Sonsie+One" rel="stylesheet"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="styles/index.processed.css">
+  <link rel="stylesheet" href="styles/index.processed.css"/>
 </head>
 <body>
   <div class="container">
@@ -35,46 +37,28 @@
                       <th data-field="name">Name</th>
                       <th data-field="priority">Priority</th>
                       <th data-field="status">Status</th>
-                      <th data-field="assignedTo">Assigned To</th>
+
                   </tr>
                   </thead>
               </table>
           </div>
           <div class="col-md-1 col-sm-1 col-xs-1"></div>
       </div>
-      <div class="row">
-          <input id="username" placeholder="Enter Username...">
-      </div>
-      </div>
+
       <div class="row">
       <div class="col-md-3 col-sm-3 col-xs-3"></div>
       <div class="col-md-6 col-sm-6 col-xs-6"><a href="#" class="btn btn-info btn-xl btn-block" role="button" id = "AssignMe" >Assign me</a></div>
        <div class="col-md-2 col-sm-2 col-xs-2"></div>    
     </div>
-    <div class="row">
-      <div class="col-md-3 col-sm-3 col-xs-3"></div>
-      <div class="col-md-6 col-sm-6 col-xs-6"><a href="#" class="btn btn-info btn-xl btn-block" role="button" >Skip - Get another ticket</a></div>
-      <div class="col-md-2 col-sm-2 col-xs-2"></div>     
-    </div>
 
-    
   </div>
   <div>
       <span id="result"></span>
   </div>
-  </div>
+
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="/static/scripts/assign_me.js"></script>
-<script type="text/javascript">
-$(document).ready(function($) {
-    $(".table-row").click(function() {
-        window.document.location = $(this).data("href");
-    });
-});
-
-
-</script>
-
+</html>

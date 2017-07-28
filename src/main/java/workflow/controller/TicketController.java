@@ -82,6 +82,7 @@ public class TicketController {
     @RequestMapping(value = "/ticket/byassignedto", method = RequestMethod.GET)
     public List<Ticket> getTicketsByAssignedTo(@RequestParam(value = "userName") String userName) {
 
+
         return ticketService.getTicketsByAssignedTo(userName);
 
     }

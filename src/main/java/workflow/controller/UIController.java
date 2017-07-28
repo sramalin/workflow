@@ -81,8 +81,13 @@ public class UIController {
     }
 
     @RequestMapping(value = "/web/user/userassignticket", method = RequestMethod.GET)
-    public String getAssignTicketPage() {
+    public String getAssignTicketPage(Model model) {
 
+        org.springframework.security.core.Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+
+
+        model.addAttribute("LoggedInUser", name);
         return "user_get_single_ticket";
 
     }
