@@ -142,6 +142,14 @@ label {
   -moz-border-radius:50%;
   border-radius:50%;
 }
+
+.home-logo-contrast:hover {
+  border: 1px solid #d97957;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  border-radius:50%;
+}
+
 .bootstrap-table{
   background-color:#9bb3c9 ;
   font-family: 'Roboto Slab';
