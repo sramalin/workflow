@@ -163,6 +163,11 @@ label {
 #tickets_view_page{
   background-color:#cebaa0 ;
 }
+
+#users_view_page{
+  background-color:#cebaa0 ;
+}
+
 #ticketlink{
   color:#d97957;
   text-decoration: underline;
